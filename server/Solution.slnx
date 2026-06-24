@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="Api/Api.csproj" Id="8aacaaf1-d41b-4891-9791-39ee3af57082" />
+  </Folder>
+  <Folder Name="/Application/">
+    <Project Path="Application/Application.csproj" Id="6366a266-7cc4-4291-a620-6a76fce8a4b3" />
+  </Folder>
+  <Folder Name="/Communication/">
+    <Project Path="Communication/Communication.csproj" Id="ea4c1975-514e-4692-9f44-a835da55d361" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="Domain/Domain.csproj" Id="d57841b1-7d90-46c9-b857-c887a1e943ee" />
+  </Folder>
+  <Folder Name="/Exception/">
+    <Project Path="Exception/Exception.csproj" Id="de6dcd75-9eb2-4086-9db9-21e4129ea079" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/Infrastructure.csproj" Id="b9667201-2746-4925-a7ef-fb8a28ef388e" />
+  </Folder>
+</Solution>
