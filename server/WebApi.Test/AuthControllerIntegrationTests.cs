@@ -37,12 +37,8 @@ namespace WebApi.Test
         }
 
         [Theory]
-        [InlineData("wrong", "123456")]
         [InlineData("admin@admin.com", "wrong")] 
-        [InlineData("wrong", "wrong")] 
-        [InlineData("", "123456")]     
-        [InlineData("admin@admin.com", "")]      
-        [InlineData("", "")]           
+        [InlineData("wrong@wrong.com", "123456")]      
         public async Task Login_InvalidCredentials_Returns401(string email, string password)
         {
             var payload = new { Email = email, Password = password };
@@ -50,6 +46,20 @@ namespace WebApi.Test
             var response = await _client.PostAsJsonAsync("/api/auth/login", payload);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("", "")]
+        [InlineData("", "wrong")]
+        [InlineData("wrong@wrong.com", "        ")]
+        [InlineData("wrong#wrong", "123456")]
+        public async Task Login_WrongCredentials_Returns400(string email, string password)
+        {
+            var payload = new { Email = email, Password = password };
+
+            var response = await _client.PostAsJsonAsync("/api/auth/login", payload);
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
     }
 }
