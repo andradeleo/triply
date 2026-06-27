@@ -10,9 +10,12 @@ namespace Application.UseCases.Authentication
     {
         public async Task<ResponseLogin> Execute(RequestLogin request)
         {
+            await Validate(request);
+
+
             if (request.Email != "admin@admin.com" || request.Password != "123456")
             {
-                throw new UnauthorizedAccessException("Invalid username or password");
+                throw new Exception("Invalid username or password");
             }
 
             var user = new User
@@ -24,6 +27,18 @@ namespace Application.UseCases.Authentication
             };
 
             return new ResponseLogin { Token = tokenService.Generate(user) };
+        }
+
+        private async Task Validate(RequestLogin request)
+        {
+            var result = new LoginValidator().Validate(request);
+
+            if (result.IsValid == false)
+            {
+                var errorMessages = result.Errors.Select(f => f.ErrorMessage).ToList();
+
+                throw new Exception(errorMessages[0]);
+            }
         }
     }
 }
