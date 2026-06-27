@@ -14,7 +14,7 @@ namespace Api.Controllers
         [HttpGet("seguro")]
         public IActionResult Seguro() => Ok($"Olá, {User.Identity?.Name}!");
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("admin")]
         public IActionResult SoAdmin() => Ok("Área restrita a Admin.");
     }

@@ -22,6 +22,7 @@ namespace WebApi.Test
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var body = await response.Content.ReadAsStringAsync();
+
             Assert.Equal("Qualquer um acessa.", body);
         }
 
@@ -70,12 +71,13 @@ namespace WebApi.Test
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var body = await response.Content.ReadAsStringAsync();
+
             Assert.Equal("Área restrita a Admin.", body);
         }
 
         private async Task<string> GetTokenAsync()
         {
-            var payload = new { Username = "admin", Password = "123456" };
+            var payload = new { Email = "admin@admin.com", Password = "123456" };
             var response = await _client.PostAsJsonAsync("/api/auth/login", payload);
             var body = await response.Content.ReadFromJsonAsync<JsonElement>();
             return body.GetProperty("token").GetString()!;

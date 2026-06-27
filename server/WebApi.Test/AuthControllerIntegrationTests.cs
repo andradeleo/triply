@@ -16,7 +16,7 @@ namespace WebApi.Test
         [Fact]
         public async Task Login_ValidCredentials_Returns200()
         {
-            var payload = new { Username = "admin", Password = "123456" };
+            var payload = new { Email = "admin@admin.com", Password = "123456" };
 
             var response = await _client.PostAsJsonAsync("/api/auth/login", payload);
 
@@ -26,7 +26,7 @@ namespace WebApi.Test
         [Fact]
         public async Task Login_ValidToken_Returns200()
         {
-            var payload = new { Username = "admin", Password = "123456" };
+            var payload = new { Email = "admin@admin.com", Password = "123456" };
 
             var response = await _client.PostAsJsonAsync("/api/auth/login", payload);
             var body = await response.Content.ReadFromJsonAsync<JsonElement>();
@@ -38,14 +38,14 @@ namespace WebApi.Test
 
         [Theory]
         [InlineData("wrong", "123456")]
-        [InlineData("admin", "wrong")] 
+        [InlineData("admin@admin.com", "wrong")] 
         [InlineData("wrong", "wrong")] 
         [InlineData("", "123456")]     
-        [InlineData("admin", "")]      
+        [InlineData("admin@admin.com", "")]      
         [InlineData("", "")]           
-        public async Task Login_InvalidCredentials_Returns401(string username, string password)
+        public async Task Login_InvalidCredentials_Returns401(string email, string password)
         {
-            var payload = new { Username = username, Password = password };
+            var payload = new { Email = email, Password = password };
 
             var response = await _client.PostAsJsonAsync("/api/auth/login", payload);
 

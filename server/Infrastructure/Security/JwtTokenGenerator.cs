@@ -9,14 +9,13 @@ namespace Infrastructure.Security
 {
     public class JwtTokenGenerator(uint expirationTimeMinutes, string jwtKey, string issuer, string audience) : IAccessTokenGenerator
     {
-
         public string Generate(User user)
         {
 
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new(JwtRegisteredClaimNames.Name, user.Name),
+                new(JwtRegisteredClaimNames.Email, user.Email),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, user.Role)
             };

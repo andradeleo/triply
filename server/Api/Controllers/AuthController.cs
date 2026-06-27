@@ -1,4 +1,6 @@
-﻿using Domain.Security;
+﻿using Application.UseCases.Authentication;
+using Communication.Request;
+using Domain.Security;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -7,24 +9,21 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class AuthController(IAccessTokenGenerator tokenService) : ControllerBase
     {
-        public record LoginRequest(string Username, string Password);
-
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] RequestLogin request)
         {
-            if (request.Username != "admin" || request.Password != "123456")
-                return Unauthorized();
+            var useCase = new LoginUseCase(tokenService);
 
-            var user = new Domain.Entities.User()
+            try
             {
-                Id = Guid.NewGuid(),
-                Name = request.Username,
-                Role = "Admin"
-            };
+                var response = await useCase.Execute(request);
 
-            var token = tokenService.Generate(user);
-
-            return Ok(new { token });
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
         }
     }
 }
