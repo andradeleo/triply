@@ -1,8 +1,6 @@
 
-using Api.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Api.Extensions;
+using Infrastructure.Extensions;
 
 namespace Api
 {
@@ -16,32 +14,10 @@ namespace Api
 
             builder.Services.AddOpenApi();
 
-            #region Autenticação
-            var jwt = builder.Configuration.GetSection("Jwt");
+            builder.Services.AddAuthenticationConfigs(builder.Configuration);
 
-            builder.Services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwt["Issuer"],
-                        ValidAudience = jwt["Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(jwt["Key"]!)),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
-
-            builder.Services.AddAuthorization();
-
-            builder.Services.AddScoped<TokenService>();
-            #endregion 
-
+            builder.Services.AddInfrastructure(builder.Configuration);
+            
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
