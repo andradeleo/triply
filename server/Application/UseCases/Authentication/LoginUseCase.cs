@@ -3,6 +3,7 @@ using Communication.Response;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Security;
+using Exception;
 
 namespace Application.UseCases.Authentication
 {
@@ -15,7 +16,7 @@ namespace Application.UseCases.Authentication
 
             if (request.Email != "admin@admin.com" || request.Password != "123456")
             {
-                throw new Exception("Invalid username or password");
+                throw new UnauthorizedException("Email ou senha inválidos");
             }
 
             var user = new User
@@ -36,8 +37,7 @@ namespace Application.UseCases.Authentication
             if (result.IsValid == false)
             {
                 var errorMessages = result.Errors.Select(f => f.ErrorMessage).ToList();
-
-                throw new Exception(errorMessages[0]);
+                throw new ErrorOnValidationException(errorMessages);
             }
         }
     }

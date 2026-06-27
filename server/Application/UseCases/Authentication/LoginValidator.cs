@@ -13,6 +13,11 @@ namespace Application.UseCases.Authentication
                 .EmailAddress()
                 .When(data => string.IsNullOrWhiteSpace(data.Email) == false, ApplyConditionTo.CurrentValidator)
                 .WithMessage("Email inválido");
+
+            RuleFor(x => x.Password)
+                .NotEmpty()
+                .Must(password => !string.IsNullOrWhiteSpace(password))
+                .WithMessage("Senha é obrigatória.");
         }
     }
 }

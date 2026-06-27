@@ -14,16 +14,9 @@ namespace Api.Controllers
         {
             var useCase = new LoginUseCase(tokenService);
 
-            try
-            {
-                var response = await useCase.Execute(request);
+            var response = await useCase.Execute(request);
 
-                return Ok(response);
-            }
-            catch (Exception)
-            {
-                return Unauthorized();
-            }
+            return Ok(response);
         }
     }
 }
