@@ -8,7 +8,7 @@
 O `triply` é uma aplicação dividida em dois projetos:
 
 - `client/` — frontend **Angular**, roda na porta **4200**.
-- `server/` — backend **API .NET**, roda na porta **9000**.
+- `server/` — backend **API .NET**, roda na porta **9000**. Detalhes específicos do backend em [`server/CLAUDE.md`](server/CLAUDE.md).
 
 ## Portas
 
