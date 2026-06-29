@@ -9,6 +9,8 @@ namespace Infrastructure.Extensions
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IPasswordEncripter, PasswordEncripter>();
+
             AddToken(services, configuration);
         }
 

@@ -1,6 +1,6 @@
-
 using Api.Extensions;
 using Api.Filters;
+using Application.Extensions;
 using Infrastructure.Extensions;
 
 namespace Api
@@ -18,6 +18,8 @@ namespace Api
             builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
             builder.Services.AddAuthenticationConfigs(builder.Configuration);
+
+            builder.Services.AddApplication();
 
             builder.Services.AddInfrastructure(builder.Configuration);
             

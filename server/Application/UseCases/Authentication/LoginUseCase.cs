@@ -7,12 +7,13 @@ using Exception;
 
 namespace Application.UseCases.Authentication
 {
-    public class LoginUseCase(IAccessTokenGenerator tokenService) : ILoginUseCase
+    public class LoginUseCase(IAccessTokenGenerator tokenService, IPasswordEncripter passwordEncripter) : ILoginUseCase
     {
+        private readonly IPasswordEncripter _passwordEncripter = passwordEncripter;
+
         public async Task<ResponseLogin> Execute(RequestLogin request)
         {
             await Validate(request);
-
 
             if (request.Email != "admin@admin.com" || request.Password != "123456")
             {
@@ -22,9 +23,8 @@ namespace Application.UseCases.Authentication
             var user = new User
             {
                 Email = request.Email,
-                Password = request.Password,
+                Password = _passwordEncripter.Encrypt(request.Password),
                 Role = Roles.ADMIN
-              
             };
 
             return new ResponseLogin { Token = tokenService.Generate(user) };
