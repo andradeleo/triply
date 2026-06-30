@@ -5,10 +5,10 @@ using System.Text.Json;
 
 namespace WebApi.Test
 {
-    public class AuthControllerIntegrationTests : IClassFixture<WebApplicationFactory<Api.Program>>
+    public class AuthControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly HttpClient _client;
-        public AuthControllerIntegrationTests(WebApplicationFactory<Api.Program> factory)
+        public AuthControllerIntegrationTests(CustomWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
         }
