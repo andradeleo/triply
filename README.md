@@ -37,6 +37,14 @@ ng serve
 
 O cliente fica disponível em `http://localhost:4200` e consome a API na porta 9000.
 
+## Skills do Claude
+
+O projeto inclui skills para o [Claude Code](https://claude.com/claude-code) em `.claude/skills/`, que automatizam convenções do repositório.
+
+| Skill | Funcionalidade |
+|-------|----------------|
+| [`git-workflow`](.claude/skills/git-workflow/SKILL.md) | Convenções de Git: nomeação de branches, formato de commit (`<conventional-commits>:<message>`, sem body) e separação de múltiplas alterações em commits coesos — analisando o estado do repositório antes de sugerir. |
+
 ## Licença
 
 Veja o arquivo [LICENSE](LICENSE).
