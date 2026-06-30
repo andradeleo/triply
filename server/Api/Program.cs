@@ -1,5 +1,6 @@
 using Api.Extensions;
 using Api.Filters;
+using Api.Middlewares;
 using Application.Extensions;
 using Infrastructure.Extensions;
 
@@ -29,6 +30,8 @@ namespace Api
             {
                 app.MapOpenApi();
             }
+
+            app.UseMiddleware<CultureMiddleware>();
 
             app.UseHttpsRedirection();
 

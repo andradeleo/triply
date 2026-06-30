@@ -1,4 +1,5 @@
-﻿using Communication.Response;
+﻿using Communication.Resources;
+using Communication.Response;
 using Exception;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -29,7 +30,7 @@ namespace Api.Filters
 
         private void ThrowUnknownError(ExceptionContext context)
         {
-            var errorResponse = new ResponseErrorJson("Erro desconhecido");
+            var errorResponse = new ResponseErrorJson(ResourceMessages.UNKNOWN_ERROR);
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Result = new ObjectResult(errorResponse);
         }
