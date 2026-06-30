@@ -20,5 +20,13 @@ O `triply` é uma aplicação dividida em dois projetos:
 ## Convenções
 
 - Commits e branches em inglês.
-- Manter mensagens de commit no padrão do histórico existente (ex.: `chore: scaffold project structure`) — Conventional Commits.
 - A branch principal é `main`.
+
+### Git
+
+Convenções detalhadas na skill [`git-workflow`](.claude/skills/git-workflow/SKILL.md). Resumo:
+
+- **Commits**: formato obrigatório `<conventional-commits>:<message>` (ex.: `feat:add culture middleware`). Inglês, imperativo, ≤ 50 caracteres, sem ponto final. **Nunca usar body** — commit é linha única.
+- **Decidir o commit**: sempre analisar o Git antes (`status`, `diff`, arquivos não rastreados, `log`).
+- **Múltiplas alterações**: separar em vários commits coesos e retornar uma tabela (`#` | Arquivos | Mensagem). Uma intenção só = um commit.
+- **Branches**: kebab-case em inglês, padrão `add-<feature>` (ex.: `add-password-encryption`).
