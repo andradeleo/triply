@@ -6,10 +6,10 @@ using System.Text.Json;
 
 namespace WebApi.Test
 {
-    public class TesteControllerIntegrationTests : IClassFixture<WebApplicationFactory<Api.Program>>
+    public class TesteControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly HttpClient _client;
-        public TesteControllerIntegrationTests(WebApplicationFactory<Api.Program> factory)
+        public TesteControllerIntegrationTests(CustomWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
         }

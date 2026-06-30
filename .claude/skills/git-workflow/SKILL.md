@@ -7,6 +7,15 @@ description: Convenções de Git do triply — como nomear branches, formatar me
 
 Convenções de versionamento do repositório `triply`. Siga ao sugerir branches e commits.
 
+## Montar ≠ executar (regra crítica)
+
+**"Montar", "sugerir", "planejar" um commit NÃO é o mesmo que criá-lo.**
+
+- **Montar/sugerir/planejar** → apenas analisar o Git e **retornar a tabela** (`#` | Arquivos | Mensagem). **Não rodar `git add` nem `git commit`.** Parar e aguardar.
+- **Fazer/criar/commitar/executar** → só então rodar `git add` + `git commit`.
+
+Na dúvida sobre qual o usuário quer, **montar** (não executar) e perguntar antes de commitar. Nunca commitar sem pedido explícito de execução.
+
 ## Idioma
 
 - **Mensagens de commit e nomes de branch**: sempre em **inglês**.
@@ -83,3 +92,4 @@ Nesse caso, retornar uma **tabela** descrevendo cada commit:
 5. Formato `<conventional-commits>:<message>`, inglês, imperativo, ≤ 50 chars, sem ponto final.
 6. Sem body em nenhum commit.
 7. Sugeri nome de branch em `add-<feature>` (ou prefixo adequado) quando relevante.
+8. **Só rodei `git commit` se o usuário pediu para executar** — "montar/sugerir" para na tabela.

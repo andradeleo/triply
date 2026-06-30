@@ -1,5 +1,7 @@
 ﻿using Domain.Security;
+using Infrastructure.Database;
 using Infrastructure.Security;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,7 @@ namespace Infrastructure.Extensions
             services.AddScoped<IPasswordEncripter, PasswordEncripter>();
 
             AddToken(services, configuration);
+            AddDbContext(services, configuration);
         }
 
         private static void AddToken(IServiceCollection services, IConfiguration configuration)
@@ -22,6 +25,19 @@ namespace Infrastructure.Extensions
             var audience = configuration.GetValue<string>("Jwt:Audience");
 
             services.AddScoped<IAccessTokenGenerator>(config => new JwtTokenGenerator(expirationTimeMinutes, jtwKey!, issuer!, audience!));
+        }
+
+        private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString, options => {
+                options.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null
+                );
+            }));
         }
     }
 }

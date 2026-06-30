@@ -18,6 +18,6 @@
     <Project Path="Infrastructure/Infrastructure.csproj" Id="b9667201-2746-4925-a7ef-fb8a28ef388e" />
   </Folder>
   <Folder Name="/Tests/">
-    <Project Path="WebApi.Test/WebApi.Test.csproj" Id="129f5639-b03f-492b-8561-748697b37237" />
+    <Project Path="Tests/WebApi.Test/WebApi.Test.csproj" Id="129f5639-b03f-492b-8561-748697b37237" />
   </Folder>
 </Solution>
