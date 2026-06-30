@@ -1,4 +1,5 @@
 ﻿using Communication.Request;
+using Communication.Resources;
 using Communication.Response;
 using Domain.Entities;
 using Domain.Enums;
@@ -17,7 +18,7 @@ namespace Application.UseCases.Authentication
 
             if (request.Email != "admin@admin.com" || request.Password != "123456")
             {
-                throw new UnauthorizedException("Email ou senha inválidos");
+                throw new UnauthorizedException(ResourceMessages.INVALID_CREDENTIALS);
             }
 
             var user = new User

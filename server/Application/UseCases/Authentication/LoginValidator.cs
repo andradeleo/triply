@@ -1,4 +1,5 @@
 ﻿using Communication.Request;
+using Communication.Resources;
 using FluentValidation;
 
 namespace Application.UseCases.Authentication
@@ -9,15 +10,15 @@ namespace Application.UseCases.Authentication
         {
             RuleFor(data => data.Email)
                 .NotEmpty()
-                .WithMessage("Email é obrigatório")
+                .WithMessage(ResourceMessages.EMAIL_REQUIRED)
                 .EmailAddress()
                 .When(data => string.IsNullOrWhiteSpace(data.Email) == false, ApplyConditionTo.CurrentValidator)
-                .WithMessage("Email inválido");
+                .WithMessage(ResourceMessages.INVALID_EMAIL);
 
             RuleFor(x => x.Password)
                 .NotEmpty()
                 .Must(password => !string.IsNullOrWhiteSpace(password))
-                .WithMessage("Senha é obrigatória.");
+                .WithMessage(ResourceMessages.PASSWORD_REQUIRED);
         }
     }
 }
