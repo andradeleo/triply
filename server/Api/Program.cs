@@ -2,13 +2,14 @@ using Api.Extensions;
 using Api.Filters;
 using Api.Middlewares;
 using Application.Extensions;
+using Infrastructure.Database;
 using Infrastructure.Extensions;
 
 namespace Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +42,14 @@ namespace Api
 
             app.MapControllers();
 
-            app.Run();
+            if (app.Environment.IsDevelopment())
+            {
+                await using var scope = app.Services.CreateAsyncScope();
+
+                await DataBaseMigration.MigrateDatabase(scope.ServiceProvider);
+            }
+
+            await app.RunAsync();
         }
     }
 }
