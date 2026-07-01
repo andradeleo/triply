@@ -1,5 +1,8 @@
-﻿using Domain.Security;
+﻿using Domain.Infrastructure;
+using Domain.Infrastructure.Repositories;
+using Domain.Security;
 using Infrastructure.Database;
+using Infrastructure.Repositories;
 using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +18,7 @@ namespace Infrastructure.Extensions
 
             AddToken(services, configuration);
             AddDbContext(services, configuration);
+            AddRepositories(services);
         }
 
         private static void AddToken(IServiceCollection services, IConfiguration configuration)
@@ -25,6 +29,12 @@ namespace Infrastructure.Extensions
             var audience = configuration.GetValue<string>("Jwt:Audience");
 
             services.AddScoped<IAccessTokenGenerator>(config => new JwtTokenGenerator(expirationTimeMinutes, jtwKey!, issuer!, audience!));
+        }
+
+        private static void AddRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserReadOnlyRepository, UserRepository>();
         }
 
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
