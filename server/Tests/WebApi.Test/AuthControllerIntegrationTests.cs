@@ -1,4 +1,3 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -8,6 +7,7 @@ namespace WebApi.Test
     public class AuthControllerIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly HttpClient _client;
+
         public AuthControllerIntegrationTests(CustomWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
@@ -32,13 +32,25 @@ namespace WebApi.Test
             var body = await response.Content.ReadFromJsonAsync<JsonElement>();
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.NotNull(body);
             Assert.False(string.IsNullOrWhiteSpace(body.GetProperty("token").GetString()));
         }
 
+        [Fact]
+        public async Task Login_UnconfirmedEmail_Returns401WithMessage()
+        {
+            var payload = new { Email = "pending@pending.com", Password = "123456" };
+
+            var response = await _client.PostAsJsonAsync("/api/auth/login", payload);
+            var body = await response.Content.ReadFromJsonAsync<JsonElement>();
+            var messages = body.GetProperty("errorMessages").EnumerateArray().Select(m => m.GetString());
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Contains("Please confirm your email before signing in.", messages);
+        }
+
         [Theory]
-        [InlineData("admin@admin.com", "wrong")] 
-        [InlineData("wrong@wrong.com", "123456")]      
+        [InlineData("admin@admin.com", "wrong")]
+        [InlineData("wrong@wrong.com", "123456")]
         public async Task Login_InvalidCredentials_Returns401(string email, string password)
         {
             var payload = new { Email = email, Password = password };

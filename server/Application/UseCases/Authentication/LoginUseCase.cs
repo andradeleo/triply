@@ -1,34 +1,33 @@
 ﻿using Communication.Request;
 using Communication.Resources;
 using Communication.Response;
-using Domain.Entities;
-using Domain.Enums;
+using Domain.Infrastructure.Repositories;
 using Domain.Security;
 using Exception;
 
 namespace Application.UseCases.Authentication
 {
-    public class LoginUseCase(IAccessTokenGenerator tokenService, IPasswordEncripter passwordEncripter) : ILoginUseCase
+    public class LoginUseCase(IAccessTokenGenerator accessTokenGenerator, IPasswordEncripter passwordEncripter, IUserReadOnlyRepository userReadOnlyRepository) : ILoginUseCase
     {
-        private readonly IPasswordEncripter _passwordEncripter = passwordEncripter;
-
         public async Task<ResponseLogin> Execute(RequestLogin request)
         {
             await Validate(request);
 
-            if (request.Email != "admin@admin.com" || request.Password != "123456")
+            var userInDatabase = await userReadOnlyRepository.GetUserByEmail(request.Email) ?? throw new UnauthorizedException(ResourceMessages.INVALID_CREDENTIALS);
+
+            var passwordMatch = passwordEncripter.Verify(request.Password, userInDatabase.Password);
+
+            if (passwordMatch == false)
             {
                 throw new UnauthorizedException(ResourceMessages.INVALID_CREDENTIALS);
             }
 
-            var user = new User
+            if (userInDatabase.ConfirmedEmailAt == null)
             {
-                Email = request.Email,
-                Password = _passwordEncripter.Encrypt(request.Password),
-                Role = Roles.ADMIN
-            };
+                throw new UnauthorizedException(ResourceMessages.EMAIL_NOT_CONFIRMED);
+            }
 
-            return new ResponseLogin { Token = tokenService.Generate(user) };
+            return new ResponseLogin { Token = accessTokenGenerator.Generate(userInDatabase) };
         }
 
         private async Task Validate(RequestLogin request)

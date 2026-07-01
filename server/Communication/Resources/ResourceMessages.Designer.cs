@@ -61,6 +61,15 @@ namespace Communication.Resources {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Please confirm your email before signing in..
+        /// </summary>
+        public static string EMAIL_NOT_CONFIRMED {
+            get {
+                return ResourceManager.GetString("EMAIL_NOT_CONFIRMED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Email is required..
         /// </summary>
         public static string EMAIL_REQUIRED {
