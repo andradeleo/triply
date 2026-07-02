@@ -1,7 +1,7 @@
 ﻿using Communication.Request;
 using Communication.Response;
 
-namespace Application.UseCases.Authentication
+namespace Application.UseCases.Authentication.Login
 {
     public interface ILoginUseCase
     {

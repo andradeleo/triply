@@ -2,7 +2,7 @@
 using Communication.Resources;
 using FluentValidation;
 
-namespace Application.UseCases.Authentication
+namespace Application.UseCases.Authentication.Login
 {
     public  class LoginValidator : AbstractValidator<RequestLogin>
     {

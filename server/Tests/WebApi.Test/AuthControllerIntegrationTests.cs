@@ -73,5 +73,70 @@ namespace WebApi.Test
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
+
+        [Fact]
+        public async Task Register_ValidData_Returns200()
+        {
+            var payload = new { Name = "New User", Email = "newuser@triply.com", Password = "Str0ng!Pass" };
+
+            var response = await _client.PostAsJsonAsync("/api/auth/register", payload);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Register_ValidData_ReturnsConfirmationMessage()
+        {
+            var payload = new { Name = "Confirm User", Email = "confirm@triply.com", Password = "Str0ng!Pass" };
+
+            var response = await _client.PostAsJsonAsync("/api/auth/register", payload);
+            var body = await response.Content.ReadFromJsonAsync<JsonElement>();
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("We've sent you a confirmation email.", body.GetProperty("message").GetString());
+        }
+
+        [Fact]
+        public async Task Register_ExistingEmail_Returns200WithoutLeakingExistence()
+        {
+            var payload = new { Name = "Admin", Email = "admin@admin.com", Password = "Str0ng!Pass" };
+
+            var response = await _client.PostAsJsonAsync("/api/auth/register", payload);
+            var body = await response.Content.ReadFromJsonAsync<JsonElement>();
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal("We've sent you a confirmation email.", body.GetProperty("message").GetString());
+        }
+
+        [Fact]
+        public async Task Register_PersistsUserWithUnconfirmedEmail()
+        {
+            var register = new { Name = "Persist User", Email = "persist@triply.com", Password = "Str0ng!Pass" };
+            await _client.PostAsJsonAsync("/api/auth/register", register);
+
+            var login = new { Email = "persist@triply.com", Password = "Str0ng!Pass" };
+            var response = await _client.PostAsJsonAsync("/api/auth/login", login);
+            var body = await response.Content.ReadFromJsonAsync<JsonElement>();
+            var messages = body.GetProperty("errorMessages").EnumerateArray().Select(m => m.GetString());
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Contains("Please confirm your email before signing in.", messages);
+        }
+
+        [Theory]
+        [InlineData("", "valid@triply.com", "Str0ng!Pass")]
+        [InlineData("John123", "valid@triply.com", "Str0ng!Pass")]
+        [InlineData("Valid Name", "", "Str0ng!Pass")]
+        [InlineData("Valid Name", "notanemail", "Str0ng!Pass")]
+        [InlineData("Valid Name", "valid@triply.com", "")]
+        [InlineData("Valid Name", "valid@triply.com", "weak")]
+        public async Task Register_InvalidData_Returns400(string name, string email, string password)
+        {
+            var payload = new { Name = name, Email = email, Password = password };
+
+            var response = await _client.PostAsJsonAsync("/api/auth/register", payload);
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }
