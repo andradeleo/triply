@@ -5,7 +5,7 @@ using Domain.Infrastructure.Repositories;
 using Domain.Security;
 using Exception;
 
-namespace Application.UseCases.Authentication
+namespace Application.UseCases.Authentication.Login
 {
     public class LoginUseCase(IAccessTokenGenerator accessTokenGenerator, IPasswordEncripter passwordEncripter, IUserReadOnlyRepository userReadOnlyRepository) : ILoginUseCase
     {
@@ -37,6 +37,7 @@ namespace Application.UseCases.Authentication
             if (result.IsValid == false)
             {
                 var errorMessages = result.Errors.Select(f => f.ErrorMessage).ToList();
+
                 throw new ErrorOnValidationException(errorMessages);
             }
         }
