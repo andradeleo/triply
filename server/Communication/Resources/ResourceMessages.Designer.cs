@@ -61,6 +61,15 @@ namespace Communication.Resources {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a We&apos;ve sent you a confirmation email..
+        /// </summary>
+        public static string EMAIL_CONFIRMATION_SENT {
+            get {
+                return ResourceManager.GetString("EMAIL_CONFIRMATION_SENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Please confirm your email before signing in..
         /// </summary>
         public static string EMAIL_NOT_CONFIRMED {
@@ -93,6 +102,42 @@ namespace Communication.Resources {
         public static string INVALID_EMAIL {
             get {
                 return ResourceManager.GetString("INVALID_EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character..
+        /// </summary>
+        public static string INVALID_PASSWORD {
+            get {
+                return ResourceManager.GetString("INVALID_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Name contains invalid characters..
+        /// </summary>
+        public static string NAME_INVALID {
+            get {
+                return ResourceManager.GetString("NAME_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Name is required..
+        /// </summary>
+        public static string NAME_REQUIRED {
+            get {
+                return ResourceManager.GetString("NAME_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Name must be at most 100 characters long..
+        /// </summary>
+        public static string NAME_TOO_LONG {
+            get {
+                return ResourceManager.GetString("NAME_TOO_LONG", resourceCulture);
             }
         }
         

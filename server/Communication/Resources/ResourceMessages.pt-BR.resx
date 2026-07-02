@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EMAIL_CONFIRMATION_SENT" xml:space="preserve">
+    <value>Enviamos um email de confirmação para você.</value>
+  </data>
   <data name="EMAIL_NOT_CONFIRMED" xml:space="preserve">
     <value>Confirme seu email antes de fazer login.</value>
   </data>
@@ -128,6 +131,18 @@
   </data>
   <data name="INVALID_EMAIL" xml:space="preserve">
     <value>Email é inválido.</value>
+  </data>
+  <data name="INVALID_PASSWORD" xml:space="preserve">
+    <value>A senha deve conter no mínimo 8 caracteres, incluindo letra maiúscula, letra minúscula, número e caractere especial.</value>
+  </data>
+  <data name="NAME_INVALID" xml:space="preserve">
+    <value>Nome contém caracteres inválidos.</value>
+  </data>
+  <data name="NAME_REQUIRED" xml:space="preserve">
+    <value>Nome é obrigatório.</value>
+  </data>
+  <data name="NAME_TOO_LONG" xml:space="preserve">
+    <value>Nome deve ter no máximo 100 caracteres.</value>
   </data>
   <data name="PASSWORD_REQUIRED" xml:space="preserve">
     <value>Senha é obrigatória.</value>
